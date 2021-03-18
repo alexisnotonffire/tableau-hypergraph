@@ -1,0 +1,38 @@
+tables:
+    - name: content
+      fields:
+        - name: content_id
+          type: STRING
+        - name: name
+          type: STRING
+        - name: owner
+          type: STRING
+        - name: project
+          type: STRING
+        - name: created
+          type: STRING
+
+    - name: tags
+      fields:
+        - name: content_id 
+          type: STRING
+        - name: tag
+          type: STRING
+
+    - name: content_dependencies
+      fields:
+        - name: upstream_content_id
+          type: STRING
+        - name: downstream_content_id
+          type: STRING
+
+    - name: database_dependencies
+      fields:
+        - name: upstream_content_id
+          type: STRING
+        - name: database
+          type: STRING
+        - name: type
+          type: STRING
+
+    
