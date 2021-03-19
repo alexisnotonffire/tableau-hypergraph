@@ -1,0 +1,11 @@
+query Tags {
+  tags {
+    name
+    workbooks {
+      luid
+    }
+    publishedDatasources {
+      luid
+    }
+  }
+}

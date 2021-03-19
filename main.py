@@ -1,4 +1,4 @@
-from hypergraph.graphql import flatten_results
+from hypergraph.graphql import GraphQL
 from hypergraph.hyper import HyperCreator
 from hypergraph.tableau import Tableau
 import yaml
@@ -18,14 +18,11 @@ hc = HyperCreator(SCHEMA, HYPER_FILE)
 ts = Tableau(TOKEN["server"], TOKEN["site"], TOKEN["name"], TOKEN["value"])
 
 for table in SCHEMA["tables"]:
-    if table["name"] != "content":
-        break
-
     with open(CONTENT_MANAGEMENT.format(table["query"]), "r") as f:
         query = f.read()
 
     data = ts.query_metadata(query)
-    data = flatten_results(data)
+    data = getattr(GraphQL, table["name"])(data)
 
     hc.populate_extract(table["name"], data)
 
