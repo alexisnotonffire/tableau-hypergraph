@@ -3,12 +3,19 @@ from tableauhyperapi.inserter import Inserter
 from tableauhyperapi.sqltype import SqlType
 from tableauhyperapi.tabledefinition import TableDefinition
 from tableauhyperapi.tablename import TableName
+import os
 
 
 class HyperCreator:
-    def __init__(self, schema, hyper_file=None):
+    def __init__(self, schema, build_dir=None, hyper_file=None):
+        build_dir = build_dir or 'build'
+        if not os.path.exists(build_dir):
+            os.makedirs(build_dir)
+
+        hyper_file = hyper_file or 'extract.hyper'
+
+        self.hyper = f"{build_dir}/{hyper_file}"
         self.schema = schema
-        self.hyper = hyper_file or "build/extract.hyper"
         self.tables = self.define_tables()
         self.table_names = [table.table_name.name.unescaped for table in self.tables]
 
@@ -36,7 +43,6 @@ class HyperCreator:
             ) as connection:
                 for table in self.tables:
                     connection.catalog.create_table(table)
-                    print(f"created table: {table.table_name}")
 
     def populate_extract(self, table, data):
         if not any(table == name for name in self.table_names):

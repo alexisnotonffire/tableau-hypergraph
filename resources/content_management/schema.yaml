@@ -35,6 +35,8 @@ tables:
       fields:
         - name: upstream_content_id
           type: text
+        - name: location
+          type: text
         - name: database
           type: text
         - name: type

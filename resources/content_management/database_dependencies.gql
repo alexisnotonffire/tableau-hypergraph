@@ -1,0 +1,21 @@
+query DatabaseDependencies {
+  databases {
+    name
+    connectionType
+    ... on File {
+      filePath
+    }
+    ... on DatabaseServer {
+      hostName
+    }
+    ... on CloudFile {
+      fileId
+    }
+    downstreamWorkbooks {
+      luid
+    }
+    downstreamDatasources {
+      luid
+    }
+  }
+}

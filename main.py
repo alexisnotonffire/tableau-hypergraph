@@ -5,7 +5,8 @@ import yaml
 
 CONTENT_MANAGEMENT = "./resources/content_management/{}"
 SCHEMA_FILE = "./resources/content_management/schema.yaml"
-HYPER_FILE = "./build/tableau.hyper"
+BUILD_DIR = "build"
+HYPER_FILE = "tableau.hyper"
 TOKEN_FILE = "./resources/token"
 
 with open(SCHEMA_FILE, "r") as f:
@@ -14,7 +15,7 @@ with open(SCHEMA_FILE, "r") as f:
 with open(TOKEN_FILE, "r") as f:
     TOKEN = yaml.safe_load(f)
 
-hc = HyperCreator(SCHEMA, HYPER_FILE)
+hc = HyperCreator(SCHEMA, BUILD_DIR, HYPER_FILE)
 ts = Tableau(TOKEN["server"], TOKEN["site"], TOKEN["name"], TOKEN["value"])
 
 for table in SCHEMA["tables"]:
@@ -22,8 +23,8 @@ for table in SCHEMA["tables"]:
         query = f.read()
 
     data = ts.query_metadata(query)
-    data = getattr(GraphQL, table["name"])(data)
+    data_map = getattr(GraphQL, table["name"])(data)
 
-    hc.populate_extract(table["name"], data)
+    hc.populate_extract(table["name"], data_map)
 
-print(hc.tables)
+print("complete")

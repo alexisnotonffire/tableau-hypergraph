@@ -1,6 +1,5 @@
 query Content {
   workbooks {
-    __typename
     luid
     name 
     owner {
@@ -10,7 +9,6 @@ query Content {
     description
   }
   publishedDatasources {
-    __typename
     luid
     name 
     owner {
