@@ -1,38 +1,44 @@
 tables:
     - name: content
       fields:
+        - name: content_type
+          type: text
         - name: content_id
-          type: STRING
+          type: text
         - name: name
-          type: STRING
+          type: text
         - name: owner
-          type: STRING
+          type: text
         - name: project
-          type: STRING
-        - name: created
-          type: STRING
+          type: text
+        - name: description
+          type: text
+      query: content.gql
 
     - name: tags
       fields:
         - name: content_id 
-          type: STRING
+          type: text
         - name: tag
-          type: STRING
+          type: text
+      query: tags.gql
 
     - name: content_dependencies
       fields:
         - name: upstream_content_id
-          type: STRING
+          type: text
         - name: downstream_content_id
-          type: STRING
+          type: text
+      query: content_dependencies.gql
 
     - name: database_dependencies
       fields:
         - name: upstream_content_id
-          type: STRING
+          type: text
         - name: database
-          type: STRING
+          type: text
         - name: type
-          type: STRING
+          type: text
+      query: database_dependencies.gql
 
     

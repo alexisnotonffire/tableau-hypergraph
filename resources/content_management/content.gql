@@ -1,0 +1,22 @@
+query Content {
+  workbooks {
+    __typename
+    luid
+    name 
+    owner {
+      name
+    }
+    projectName
+    description
+  }
+  publishedDatasources {
+    __typename
+    luid
+    name 
+    owner {
+      name
+    }
+    projectName
+    description
+  }
+}

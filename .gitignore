@@ -1,3 +1,6 @@
 .vscode
 venv
 **/token
+**/__pycache__
+**/*.log
+build
