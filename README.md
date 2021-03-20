@@ -1,15 +1,28 @@
 # Hypergraph
-Tableau does not have a native GraphQL connector. This application provides a way to generate a Hyper extract from a GraphQL API and publish to a Tableau server.
+This utility creates a Hyper extract that you can use to build reports on top of your Tableau Online metadata. 
 
-# Usage
-Hypergraph requires you provide:
-* GraphQL endpoint and authentication
-* GraphQL query for the endpoint
-* Tableau server address and authentication
-* Target datasource
+## Setup
+Firstly, clone this repository and set up your virtual environment:
+```bash
+git clone https://github.com/alexisnotonffire/tableau-hypergraph.git
+cd tableau-hypergraph
+python3 -m venv venv
+. venv/bin/activate
+pip install -r requirements.txt
+```
 
-Roughly speaking the following will then happen:
-1. Hypergraph will authenticate against the GraphQL endpoint and collect the query response
-1. A Hyper schema will be generated based on the query results
-1. The query response will be flattened into the Hyper extract
-1. The Hyper extract will then be published to the server
+Next, create a YAML file named `token` under the resources directory and open it up for editing. This file will need to be populated with the data required to authenticate Hypergraph against your Tableau site. Do this by replacing the `UPPERCASE` text with the attributes relevant to your server in the following code block:
+```yaml
+server: https://POD.online.tableau.com    # Online URL including pod; e.g. https://dub01.online.tableau.com
+site: SITE                                # Site name
+name: NAME                                # Personal Access Token Name
+value: VALUE                              # Personal Access Token Secret
+```
+To create a Personal Access Token, please see the [docs](https://help.tableau.com/current/pro/desktop/en-us/useracct.htm#create-and-revoke-personal-access-tokens).
+
+## Usage
+After setup, you can run the utility from the top level folder with the following command:
+```bash
+python main.py
+```
+This will create a new directory - `build` - and populate the results of the metadata queries into a Hyper extract: `build/tableau.hyper`. You can then connect to this file in Tableau Desktop and begin creating your reports.
