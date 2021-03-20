@@ -1,6 +1,6 @@
+pip>=19.3,<20
 black
 pyyaml
 tableauserverclient
 tableauhyperapi
 wheel
-pip>=19.3,<20.0

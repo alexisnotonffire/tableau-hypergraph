@@ -2,13 +2,20 @@
 This utility creates a Hyper extract that you can use to build reports on top of your Tableau Online metadata. 
 
 ## Setup
-Firstly, clone this repository and set up your virtual environment:
+
+Firstly, make sure you have Python 3.7+ and the relevant virtual environment tooling for your system. Then clone this repository and set up your virtual environment. Make sure to run the correct command for activating your virtual env:
 ```bash
 git clone https://github.com/alexisnotonffire/tableau-hypergraph.git
 cd tableau-hypergraph
 python3 -m venv venv
-. venv/bin/activate
-pip install -r requirements.txt
+
+# WINDOWS
+#./venv/scripts/Activate.ps1
+
+# UNIX
+#. ./venv/bin/activate
+
+python3 -m pip install -r requirements.txt
 ```
 
 Next, create a YAML file named `token` under the resources directory and open it up for editing. This file will need to be populated with the data required to authenticate Hypergraph against your Tableau site. Do this by replacing the `UPPERCASE` text with the attributes relevant to your server in the following code block:
