@@ -2,28 +2,30 @@ from zipfile import ZipFile
 from os import path, remove
 import shutil
 
-TDSX = "resources/hypergraph.tdsx"
-FILE = "tableau.hyper"
-BUILD_DIR = "build"
-
 class Datasource:
+    """Provides methods to manipulate a Tableau packaged datasource file
+    
+    Args:
+        file_path: Path to the packaged datasource file (.tdsx)
+    """
     def __init__(self, file_path):
         self.path = file_path
     
-    def replace_hyper(self, file_path):
-        tmp_file = shutil.copy2(file_path, "tmpzip")
+    def replace_extract(self, file_path):
+        """Replace Hyper file in Tableau Packaged Datasource
+        
+        Args:
+            file_path: Path to the replacement hyper file.
+        """
+        tmp_file = shutil.copy2(self.path, "tmpzip")
         with ZipFile(tmp_file) as src, ZipFile(self.path, "w") as dst:
             for src_info in src.infolist():
-                _, tail = path.split(src_info.filename)
-                if tail == FILE:
-                    dst.write(f"{BUILD_DIR}/{FILE}", src_info.filename)
+                _, src_tail = path.split(src_info.filename)
+                _, file_tail = path.split(file_path)
+                if src_tail == file_tail:
+                    dst.write(file_path, src_info.filename)
                 else:
                     with src.open(src_info) as src_file:
                         dst.writestr(src_info, src_file.read())
 
         remove(tmp_file)
-            
-
-
-ds = Datasource(TDSX)
-ds.replace_hyper("test")

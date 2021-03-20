@@ -33,3 +33,5 @@ After setup, you can run the utility from the top level folder with the followin
 python main.py
 ```
 This will create a new directory - `build` - and populate the results of the metadata queries into a Hyper extract: `build/tableau.hyper`. You can then connect to this file in Tableau Desktop and begin creating your reports.
+
+An example datasource is included and updated automatically when the `main.py` script is run.

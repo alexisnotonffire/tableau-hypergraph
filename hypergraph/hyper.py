@@ -7,21 +7,27 @@ import os
 
 
 class HyperCreator:
-    def __init__(self, schema, build_dir=None, hyper_file=None):
-        build_dir = build_dir or 'build'
+    """Creates a Hyper extract file from provided schema and provides method to populate it"""
+
+    def __init__(self, schema, file_path):
+        """Initializes HyperCreator
+
+        Args:
+            schema: YAML file containing the desired schema format and queries
+            file_path: Path to save the extract to
+        """
+        build_dir, _ = os.path.split(file_path)
         if not os.path.exists(build_dir):
             os.makedirs(build_dir)
 
-        hyper_file = hyper_file or 'extract.hyper'
-
-        self.hyper = f"{build_dir}/{hyper_file}"
+        self.hyper = file_path
         self.schema = schema
-        self.tables = self.define_tables()
+        self.tables = self._define_tables()
         self.table_names = [table.table_name.name.unescaped for table in self.tables]
 
-        self.create_schema()
+        self._create_schema()
 
-    def define_tables(self):
+    def _define_tables(self):
         tables = []
         for table in self.schema["tables"]:
             tables.append(
@@ -36,7 +42,7 @@ class HyperCreator:
 
         return tables
 
-    def create_schema(self):
+    def _create_schema(self):
         with HyperProcess(telemetry=Telemetry.SEND_USAGE_DATA_TO_TABLEAU) as hyper:
             with Connection(
                 hyper.endpoint, self.hyper, CreateMode.CREATE_AND_REPLACE
@@ -45,6 +51,12 @@ class HyperCreator:
                     connection.catalog.create_table(table)
 
     def populate_extract(self, table, data):
+        """Connect to Hyper file and load table with data
+
+        Args:
+            table: name of the table you are loading
+            data: iterable object containing data to populate table with
+        """
         if not any(table == name for name in self.table_names):
             raise ValueError(f"{table} is not part of the schema")
 
